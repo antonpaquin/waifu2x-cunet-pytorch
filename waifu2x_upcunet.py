@@ -38,12 +38,17 @@ class UpCunet(nn.Module):
         x = np.asarray(pil_img)
         # upcunet drops 36 pixels as it convolves down the image.
         # Add some approximately similar padding; this will be stripped in the end result
-        x = np.pad(x, [(18, 18), (18, 18), (0, 0)], mode='reflect')
+        # Input is expected to have even dimensions. If not, pad an extra pixel and undo it at the end
+        pad_h = x.shape[0] % 2
+        pad_w = x.shape[1] % 2
+        x = np.pad(x, [(18, 18 + pad_h), (18, 18 + pad_w), (0, 0)], mode='reflect')
         x = x.transpose([2, 0, 1])[np.newaxis, :, :, :]
         x = torch.Tensor(x / 255)
         y = self.forward(x).detach().numpy()
         y = (y * 255).astype('uint8')
         y = y[0].transpose(1, 2, 0)
+        unpad = (slice(0, -2) if pad_h else slice(None), slice(0, -2) if pad_w else slice(None), slice(None))
+        y = y[unpad]
         return Image.fromarray(y)
 
     
