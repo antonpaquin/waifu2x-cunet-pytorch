@@ -23,3 +23,11 @@ python convert_waifu2x_json.py noise1_scale2.0x_model.json
 This will generate `noise1_scale2.0x_model.pt` and `noise1_scale2.0x_model.onnx` alongside the json model.
 
 Requirements: torch, Pillow, numpy
+
+# Exported Objects
+
+Here are some exported versions of the 2xScale 1xNoiseReduction model:
+
+[onnx](https://hivemind-repo.s3-us-west-2.amazonaws.com/obj/noise1_scale2.0x_model.onnx)
+
+[pytorch](https://hivemind-repo.s3-us-west-2.amazonaws.com/obj/noise1_scale2.0x_model.pt)
